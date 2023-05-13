@@ -4,24 +4,28 @@ import java.util.UUID;
 
 import co.edu.uco.publiuco.api.validator.Result;
 import co.edu.uco.publiuco.api.validator.Validation;
+import co.edu.uco.publiuco.utils.UtilObject;
+import co.edu.uco.publiuco.utils.UtilUUID;
 
-public final class IdentificadorValidation implements Validation<UUID> {
+public class identificadorValidation implements Validation<UUID> {
 
-	private IdentificadorValidation() {
+	private identificadorValidation() {
 		super();
 	}
-	
-	public static final Result validate(final String data) {
-		return new IdentificadorValidation().execute(data);
+	public static final Result validate(final UUID data) {
+		return new identificadorValidation().execute(data);
 	}
-	
 	@Override
 	public Result execute(UUID data) {
-		// TODO Auto-generated method stub
-		return null;
+		var result = Result.create();
+		
+		if(UtilObject.isNull(data)) {
+			result.addMessage("No es posible continuar con el identificador del estado vacío");
+			
+		}else if(UtilUUID.isDefault(data)) {
+			result.addMessage("No es posible tener el identificador por defecto del estado");
+		}
+		return result;
 	}
-	
-	
-	
 
 }
