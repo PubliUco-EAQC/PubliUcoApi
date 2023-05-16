@@ -11,57 +11,48 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uco.publiuco.api.controller.response.Response;
+import co.edu.uco.publiuco.api.validator.administradorcategoria.ModificarAdministradorCategoriaValidation;
+import co.edu.uco.publiuco.api.validator.administradorcategoria.RegistrarAdministradorCategoriaValidation;
 import co.edu.uco.publiuco.api.validator.estado.EliminarEstadoValidation;
-import co.edu.uco.publiuco.api.validator.estado.ModificarEstadoValidation;
-import co.edu.uco.publiuco.api.validator.estado.RegistrarEstadoValidation;
-import co.edu.uco.publiuco.business.facade.EstadoFacade;
-import co.edu.uco.publiuco.business.facade.impl.EstadoFacadeImpl;
+import co.edu.uco.publiuco.business.facade.AdministradorCategoriaFacade;
+import co.edu.uco.publiuco.business.facade.impl.AdministradorCategoriaFacadeImpl;
 import co.edu.uco.publiuco.crosscutting.exception.PubliUcoException;
-import co.edu.uco.publiuco.dto.EstadoDTO;
+import co.edu.uco.publiuco.dto.AdministradorCategoriaDTO;
 
-@RestController
-@RequestMapping("publiuco/api/v1/estado")
-public final class EstadoController {
+public class AdministradorCategoriaController {
+	private AdministradorCategoriaFacade facade;
 	
-	private EstadoFacade facade;
-	
-	public EstadoController() {
-		facade = new EstadoFacadeImpl();
+	public AdministradorCategoriaController() {
+		facade = new AdministradorCategoriaFacadeImpl();
 	}
 	@GetMapping("/dummy")
-	public EstadoDTO dummy() {
-		return EstadoDTO.create();
+	public AdministradorCategoriaDTO dummy() {
+		return AdministradorCategoriaDTO.create();
 	}
 	
 	@GetMapping
-	public ResponseEntity<Response<EstadoDTO>> list(@RequestParam EstadoDTO dto) {
-		List<EstadoDTO> list = new ArrayList<>();
+	public ResponseEntity<Response<AdministradorCategoriaDTO>> list(@RequestParam AdministradorCategoriaDTO dto) {
+		List<AdministradorCategoriaDTO> list = new ArrayList<>();
 		
 		List<String> messages = new ArrayList<>();
-		messages.add("Estados consultados exitosamente");
+		messages.add("Administradores de categoria consultados exitosamente");
 		
-		Response<EstadoDTO> response = new Response<>(list,messages);
-		return new ResponseEntity<Response<EstadoDTO>>(response,HttpStatus.OK);
-	}
-	@GetMapping("/{id}")
-	public EstadoDTO listById(@PathVariable UUID id) {
-		return EstadoDTO.create().setIdentificador(id);
+		Response<AdministradorCategoriaDTO> response = new Response<>(list,messages);
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	@PostMapping
-	public ResponseEntity<Response<EstadoDTO>> create(@RequestParam EstadoDTO dto) {
+	public ResponseEntity<Response<AdministradorCategoriaDTO>> create(@RequestParam AdministradorCategoriaDTO dto) {
 		var statusCode = HttpStatus.OK;
-		var response = new Response<EstadoDTO>();
+		Response<AdministradorCategoriaDTO> response = new Response<>();
 		
 		try {
-			var result = RegistrarEstadoValidation.validate(dto);
+			var result = RegistrarAdministradorCategoriaValidation.validate(dto);
 			if(result.getMessages().isEmpty()) {
 				facade.register(dto);
-				response.getMessages().add("El nuevo estado fue registrado de forma satisfactoria");
+				response.getMessages().add("El nuevo administrador categoria fue registrado de forma satisfactoria");
 			}else {
 				statusCode = HttpStatus.BAD_REQUEST;
 				response.setMessages(result.getMessages());
@@ -83,15 +74,15 @@ public final class EstadoController {
 		return new ResponseEntity<>(response,statusCode);
 	}
 	@PutMapping
-	public ResponseEntity<Response<EstadoDTO>> update(@PathVariable UUID id, @RequestParam EstadoDTO dto) {
+	public ResponseEntity<Response<AdministradorCategoriaDTO>> update(@PathVariable UUID id, @RequestParam AdministradorCategoriaDTO dto) {
 		var statusCode = HttpStatus.OK;
-		var response = new Response<EstadoDTO>();
+		var response = new Response<AdministradorCategoriaDTO>();
 		
 		try {
-			var result = ModificarEstadoValidation.validate(dto);
+			var result = ModificarAdministradorCategoriaValidation.validate(dto);
 			if(result.getMessages().isEmpty()) {
 				facade.modify(dto);
-				response.getMessages().add("El  estado fue modificado de forma satisfactoria");
+				response.getMessages().add("El administrador categoria fue modificado de forma satisfactoria");
 			}else {
 				statusCode = HttpStatus.BAD_REQUEST;
 				response.setMessages(result.getMessages());
@@ -113,15 +104,15 @@ public final class EstadoController {
 		return new ResponseEntity<>(response,statusCode);
 	}
 	@DeleteMapping
-	public ResponseEntity<Response<EstadoDTO>> drop(@PathVariable UUID id) {
+	public ResponseEntity<Response<AdministradorCategoriaDTO>> drop(@PathVariable UUID id) {
 		var statusCode = HttpStatus.OK;
-		var response = new Response<EstadoDTO>();
+		var response = new Response<AdministradorCategoriaDTO>();
 		
 		try {
 			var result = EliminarEstadoValidation.validate(id);
 			if(result.getMessages().isEmpty()) {
 				facade.drop(id);
-				response.getMessages().add("El estado fue eliminado de forma satisfactoria");
+				response.getMessages().add("El administrador categoria fue eliminado de forma satisfactoria");
 			}else {
 				statusCode = HttpStatus.BAD_REQUEST;
 				response.setMessages(result.getMessages());
