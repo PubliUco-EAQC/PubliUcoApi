@@ -12,7 +12,7 @@
 	<artifactId>PubliUcoApi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PubliUcoApi</name>
-	<description>Componente encargado de exponer como API los servicios de negocio a los diferentes clientes que podrán consumirlos como servicios REST</description>
+	<description>Componente encargado de exponer como API los servicios de negocio a los diferentes clientes que podrán consumirlo como servicios REST</description>
 	<properties>
 		<java.version>20</java.version>
 	</properties>
@@ -27,21 +27,21 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		 <dependency>
-			<groupId>co.edu.uco.publiuco</groupId>
+		<dependency>
+		 	<groupId>co.edu.uco.publiuco</groupId>
   			<artifactId>PubliUcoCrossCutting</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
 	  	</dependency>
-	 	<dependency>
-			<groupId>co.edu.uco.publiuco</groupId>
+	  	<dependency>
+		 	<groupId>co.edu.uco.publiuco</groupId>
+  			<artifactId>PubliucoBusisness</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+	  	</dependency>
+	  	<dependency>
+		 	<groupId>co.edu.uco.publiuco</groupId>
   			<artifactId>PubliUcoDTO</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
-	 	</dependency>
-	 	<dependency>
-			<groupId>co.edu.uco.publiuco</groupId>
-  			<artifactId>PubliUcoBusiness</artifactId>
-  			<version>0.0.1-SNAPSHOT</version>
-	 	</dependency>
+	  </dependency>
 	</dependencies>
 
 	<build>
